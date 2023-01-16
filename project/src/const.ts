@@ -25,6 +25,8 @@ export enum AppRoute {
 
 export enum APIRoute {
   Quests = '/escape-room/quest',
+  Login = '/escape-room/login',
+  Logout = '/escape-room/logout',
 }
 
 type Translation = Record<string, string>;
@@ -41,3 +43,16 @@ export const TYPE_OPTIONS: Translation = {
   'adventures': 'приключения',
   'sci-fi': 'sci-fi',
 };
+
+export const URL_MARKER_DEFAULT = '/img/svg/pin.svg';
+
+export const URL_MARKER_CURRENT = '/img/svg/pin-active.svg';
+
+export const PASSWORD_VALIDATION_ERROR = 'Пароль должен состоять минимум из 1 буквы и 1 цифры';
+export const AGREEMENT_VALIDATION_ERROR = 'Необходимо согласие на обработку персональных данных';
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}

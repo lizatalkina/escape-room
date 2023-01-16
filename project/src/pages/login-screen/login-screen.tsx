@@ -1,7 +1,53 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { AuthorizationStatus, PASSWORD_VALIDATION_ERROR, AppRoute, AGREEMENT_VALIDATION_ERROR } from '../../const';
+import { Navigate } from 'react-router-dom';
+import { useRef } from 'react';
+import { AuthData } from '../../types/user-data';
+import { loginAction } from '../../store/api-actions';
+import { FormEvent} from 'react';
+import { toast } from 'react-toastify';
 
 function LoginScreen (): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const loginRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const userAgreementRef = useRef<HTMLInputElement | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const onSubmit = (authData: AuthData) => {
+    dispatch(loginAction(authData));
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (loginRef.current !== null && passwordRef.current !== null && userAgreementRef.current !== null) {
+
+      const password = passwordRef.current.value;
+      const agreement = userAgreementRef.current.value;
+      if (agreement === null) {
+        toast.error(AGREEMENT_VALIDATION_ERROR);
+      }
+      if (!password.match(/\d/g) || !password.match(/[a-zA-Z]/g)) {
+        toast.error(PASSWORD_VALIDATION_ERROR);
+      }
+      else {
+        onSubmit({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        });
+      }
+    }
+  };
+
+  if (isAuthorized) {
+    return <Navigate to={AppRoute.Main} />;
+  }
+
   return (
     <>
       <Header/>
@@ -13,23 +59,42 @@ function LoginScreen (): JSX.Element {
         </div>
         <div className="container container--size-l">
           <div className="login__form">
-            <form className="login-form" action="https://echo.htmlacademy.ru/" method="post">
+            <form
+              className="login-form"
+              action="#"
+              method="post"
+              onSubmit={handleSubmit}
+            >
               <div className="login-form__inner-wrapper">
                 <h1 className="title title--size-s login-form__title">Вход</h1>
                 <div className="login-form__inputs">
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="email">E&nbsp;&ndash;&nbsp;mail</label>
-                    <input type="email" id="email" name="email" placeholder="Адрес электронной почты" required />
+                    <input
+                      ref={loginRef}
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Адрес электронной почты"
+                      required
+                    />
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">Пароль</label>
-                    <input type="password" id="password" name="password" placeholder="Пароль" required />
+                    <input
+                      ref={passwordRef}
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="Пароль"
+                      required
+                    />
                   </div>
                 </div>
                 <button className="btn btn--accent btn--general login-form__submit" type="submit">Войти</button>
               </div>
               <label className="custom-checkbox login-form__checkbox">
-                <input type="checkbox" id="id-order-agreement" name="user-agreement" required />
+                <input ref={userAgreementRef} type="checkbox" id="id-order-agreement" name="user-agreement" required />
                 <span className="custom-checkbox__icon">
                   <svg width="20" height="17" aria-hidden="true">
                     <use xlinkHref="#icon-tick"></use>

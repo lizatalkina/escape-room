@@ -23,8 +23,8 @@ function QuestScreen (): JSX.Element {
       <main className="decorated-page quest-page">
         <div className="decorated-page__decor" aria-hidden="true">
           <picture>
-            <source type="image/webp" srcSet={`${String(questInfo.coverImgWebp)} 1x, ${String(questInfo.coverImgWebp)} 2x`} />
-            <img src={questInfo.coverImg} srcSet={`${String(questInfo.coverImgWebp)} 2x`} width="1366" height="768" alt="" />
+            <source type="image/webp" srcSet={`${String(questInfo.previewImgWebp)}, ${String(questInfo.coverImgWebp)} 2x`} />
+            <img src={`${String(questInfo.previewImg)}`} srcSet={`${String(questInfo.coverImg)} 2x`} width="1366" height="768" alt="" />
           </picture>
         </div>
         <div className="container container--size-l">
