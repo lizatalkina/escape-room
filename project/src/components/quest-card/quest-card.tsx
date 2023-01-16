@@ -1,24 +1,37 @@
-function QuestCard (): JSX.Element {
+import { Quest } from '../../types/quest';
+import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
+import { DIFFICULTY_OPTIONS } from '../../const';
+
+type QuestProps = {
+  quest: Quest;
+};
+
+function QuestCard ( { quest }: QuestProps ): JSX.Element {
+  const {id, title, previewImg, previewImgWebp, level, peopleMinMax} = quest;
   return (
     <>
       <div className="quest-card__img">
         <picture>
-          <source type="image/webp" srcSet="img/content/crypt/crypt-size-s.webp, img/content/crypt/crypt-size-s@2x.webp 2x" /><img src="img/content/crypt/crypt-size-s.jpg" srcSet="img/content/crypt/crypt-size-s@2x.jpg 2x" width="344" height="232" alt="Мужчина в клетке в подземелье." />
+          <source type="image/webp" srcSet={previewImgWebp} />
+          <img src={previewImg} srcSet={previewImg} width="344" height="232" alt={title} />
         </picture>
       </div>
       <div className="quest-card__content">
-        <div className="quest-card__info-wrapper"><a className="quest-card__link" href="quest.html">Склеп</a>
+        <div className="quest-card__info-wrapper">
+          <Link to={AppRoute.Quest.replace(':id', `${id}`)} className="quest-card__link">{title}
+          </Link>
         </div>
         <ul className="tags quest-card__tags">
           <li className="tags__item">
             <svg width="11" height="14" aria-hidden="true">
               <use xlinkHref="#icon-person"></use>
-            </svg>2&ndash;5&nbsp;чел
+            </svg>{peopleMinMax[0]}&ndash;{peopleMinMax ? peopleMinMax[1] : ''}&nbsp;чел
           </li>
           <li className="tags__item">
             <svg width="14" height="14" aria-hidden="true">
               <use xlinkHref="#icon-level"></use>
-            </svg>Сложный
+            </svg>{DIFFICULTY_OPTIONS[level]}
           </li>
         </ul>
       </div>

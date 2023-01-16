@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import {store} from './store';
 import App from './components/app/app';
+import { fetchQuestsAction } from './store/api-actions';
 
-const CardsCount = {
-  CardsCount: 11,
-} as const;
+store.dispatch(fetchQuestsAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -12,8 +13,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App
-      cardsCount = {CardsCount.CardsCount}
-    />
+    <Provider store = { store }>
+      <App/>
+    </Provider>
   </React.StrictMode>,
 );

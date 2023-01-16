@@ -1,14 +1,21 @@
-import React from 'react';
 import QuestCard from '../quest-card/quest-card';
+import { Quest } from '../../types/quest';
 
-type QuestsListProps = {
-  cardsCount: number;
+type ListProps = {
+  quests: Quest[];
 }
 
-function QuestsList ({cardsCount}: QuestsListProps): JSX.Element {
+function QuestsList (props: ListProps): JSX.Element {
+  const { quests } = props;
   return (
     <div className="cards-grid">
-      {Array.from({length: cardsCount}, (_, i) => i + 1).map((e, _) => <div className="quest-card" key={e}><QuestCard /></div>)}
+      {
+        quests.map((quest) => (
+          <div className="quest-card" key={quest.id}>
+            <QuestCard quest = {quest}/>
+          </div>
+        ))
+      }
     </div>
   );
 }

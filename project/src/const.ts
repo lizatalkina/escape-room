@@ -23,3 +23,21 @@ export enum AppRoute {
   MyReservations = '/reservation',
 }
 
+export enum APIRoute {
+  Quests = '/escape-room/quest',
+}
+
+type Translation = Record<string, string>;
+export const DIFFICULTY_OPTIONS: Translation = {
+  'hard': 'сложный',
+  'medium': 'средний',
+  'easy': 'легкий',
+};
+
+export const TYPE_OPTIONS: Translation = {
+  'horror': 'ужасы',
+  'mystic': 'мистика',
+  'detective': 'детектив',
+  'adventures': 'приключения',
+  'sci-fi': 'sci-fi',
+};

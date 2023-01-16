@@ -8,20 +8,14 @@ import BookingScreen from '../../pages/booking-screen/booking-screen';
 import MyQuestsScreen from '../../pages/my-quests-screen/my-quests-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 
-type AppScreenProps = {
-  cardsCount: number;
-}
-
-function App({cardsCount}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   return(
     <BrowserRouter>
       <Routes>
         <Route
           path = { AppRoute.Main }
           element = {
-            <MainScreen
-              cardsCount = { cardsCount }
-            />
+            <MainScreen/>
           }
         />
         <Route

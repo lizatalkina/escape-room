@@ -3,12 +3,10 @@ import Footer from '../../components/footer/footer';
 import QuestsTypesList from '../../components/quests-types-list/quests-types-list';
 import DifficultyTypesList from '../../components/difficulty-types-list/difficulty-types-list';
 import QuestsList from '../../components/quests-list/quests-list';
+import { useAppSelector } from '../../hooks';
 
-type MainScreenProps = {
-  cardsCount: number;
-}
-
-function MainScreen ({cardsCount}: MainScreenProps): JSX.Element {
+function MainScreen (): JSX.Element {
+  const quests = useAppSelector((state) => state.quests);
   return (
     <>
       <Header/>
@@ -26,7 +24,7 @@ function MainScreen ({cardsCount}: MainScreenProps): JSX.Element {
             </form>
           </div>
           <h2 className="title visually-hidden">Выберите квест</h2>
-          <QuestsList cardsCount = {cardsCount}/>
+          <QuestsList quests = {quests}/>
         </div>
       </main>
       <Footer/>
