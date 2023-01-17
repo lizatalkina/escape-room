@@ -9,6 +9,7 @@ type QuestProps = {
 
 function QuestCard ( { quest }: QuestProps ): JSX.Element {
   const {id, title, previewImg, previewImgWebp, level, peopleMinMax} = quest;
+
   return (
     <>
       <div className="quest-card__img">

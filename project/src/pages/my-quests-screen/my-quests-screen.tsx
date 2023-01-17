@@ -15,7 +15,7 @@ function MyQuestsScreen (): JSX.Element {
     dispatch(fetchMyReservationsAction());
   }, [dispatch]);
 
-  return myReservationsInfo ? (
+  return (myReservationsInfo && myReservationsInfo.length > 0) ? (
     <>
       <Header/>
       <main className="page-content decorated-page">
