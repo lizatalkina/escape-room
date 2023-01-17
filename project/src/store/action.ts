@@ -2,7 +2,7 @@ import {createAction} from '@reduxjs/toolkit';
 import { Quest } from '../types/quest';
 import { Booking } from '../types/booking';
 import { MyReservationsData } from '../types/user-data';
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus, QuestTypes, Difficulties } from '../const';
 
 export const getQuests = createAction<{
   quests: Quest[];
@@ -28,3 +28,13 @@ export const getMyReservations = createAction<{
   reservations: MyReservationsData[];
 }
 >('quest/getMyReservations');
+
+export const changeQuestType = createAction<{
+  typeFilter: QuestTypes;
+}
+>('quest/changeQuestType');
+
+export const changeQuestDifficulty = createAction<{
+  difficultyFilter: Difficulties;
+}
+>('quest/changeQuestDifficulty');

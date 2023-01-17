@@ -1,19 +1,35 @@
 import { MarkerLocation } from './types/map-data';
 
+export enum QuestTypes {
+  All = 'all',
+  Adventure = 'adventures',
+  Horror = 'horror',
+  Mystic = 'mystic',
+  Detective = 'detective',
+  SciFi = 'sci-fi',
+}
+
+export enum Difficulties {
+  Any = 'any',
+  Easy = 'easy',
+  Middle = 'medium',
+  Hard = 'hard',
+}
+
 export const QUESTS_TYPES = [
-  {id: 'all', icon: '#icon-all-quests', width: '26', type: 'Все квесты'},
-  {id: 'adventure', icon: '#icon-adventure', width: '36', type: 'Приключения'},
-  {id: 'horror', icon: '#icon-horror', width: '30', type: 'Ужасы'},
-  {id: 'mystic', icon: '#icon-mystic', width: '30', type: 'Мистика'},
-  {id: 'detective', icon: '#icon-detective', width: '40', type: 'Детектив'},
-  {id: 'sciFi', icon: '#icon-sci-fi', width: '28', type: 'Sci-fi'},
+  {id: 'all', icon: '#icon-all-quests', width: '26', type: 'Все квесты', questType: QuestTypes.All},
+  {id: 'adventure', icon: '#icon-adventure', width: '36', type: 'Приключения', questType: QuestTypes.Adventure},
+  {id: 'horror', icon: '#icon-horror', width: '30', type: 'Ужасы', questType: QuestTypes.Horror},
+  {id: 'mystic', icon: '#icon-mystic', width: '30', type: 'Мистика', questType: QuestTypes.Mystic},
+  {id: 'detective', icon: '#icon-detective', width: '40', type: 'Детектив', questType: QuestTypes.Detective},
+  {id: 'sciFi', icon: '#icon-sci-fi', width: '28', type: 'Sci-fi', questType: QuestTypes.SciFi},
 ];
 
 export const QUESTS_DIFFICULTY = [
-  {id: 'any', difficulty: 'Любой'},
-  {id: 'easy', difficulty: 'Лёгкий'},
-  {id: 'middle', difficulty: 'Средний'},
-  {id: 'hard', difficulty: 'Сложный'},
+  {id: 'any', difficulty: 'Любой', difficultyOption: Difficulties.Any},
+  {id: 'easy', difficulty: 'Лёгкий', difficultyOption: Difficulties.Easy},
+  {id: 'middle', difficulty: 'Средний', difficultyOption: Difficulties.Middle},
+  {id: 'hard', difficulty: 'Сложный', difficultyOption: Difficulties.Hard},
 ];
 
 export enum AppRoute {
