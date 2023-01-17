@@ -5,7 +5,7 @@ import { Quest } from '../types/quest';
 import { Booking } from '../types/booking';
 import { getQuests, getQuest, getBookingInfo, requireAuthorization, redirectToRoute } from './action';
 import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
-import { UserData, AuthData } from '../types/user-data';
+import { UserData, AuthData, ReservationData } from '../types/user-data';
 import { saveToken, dropToken } from '../services/token';
 
 export const fetchQuestsAction = createAsyncThunk<void, undefined, {
@@ -91,4 +91,15 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
+);
+
+export const postReservationData = createAsyncThunk<void, ReservationData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postBooking',
+  async(reservationData, { dispatch, extra: api }) => {
+    await api.post<ReservationData>(`${APIRoute.Quests}/${reservationData.questId}/booking`, reservationData);
+  }
 );

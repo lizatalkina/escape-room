@@ -1,3 +1,5 @@
+import { MarkerLocation } from './types/map-data';
+
 export const QUESTS_TYPES = [
   {id: 'all', icon: '#icon-all-quests', width: '26', type: 'Все квесты'},
   {id: 'adventure', icon: '#icon-adventure', width: '36', type: 'Приключения'},
@@ -44,7 +46,7 @@ export const TYPE_OPTIONS: Translation = {
   'sci-fi': 'sci-fi',
 };
 
-export const URL_MARKER_DEFAULT = '/img/svg/pin.svg';
+export const URL_MARKER_DEFAULT = '/img/svg/pin-default.svg';
 
 export const URL_MARKER_CURRENT = '/img/svg/pin-active.svg';
 
@@ -56,3 +58,11 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const CONTACT_LOCATION: MarkerLocation = {
+  latitude: 59.969718,
+  longitude: 30.307523,
+  locationId: 0,
+};
+
+export const MAP_ZOOM = 10;

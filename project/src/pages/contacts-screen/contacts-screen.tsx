@@ -1,7 +1,11 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import Map from '../../components/map/map';
+import { CONTACT_LOCATION } from '../../const';
+import { MarkerLocation } from '../../types/map-data';
 
 function ContactsScreen (): JSX.Element {
+  const locations: MarkerLocation[] = [CONTACT_LOCATION];
   return (
     <>
       <Header/>
@@ -44,7 +48,12 @@ function ContactsScreen (): JSX.Element {
             </dl>
             <div className="contacts__map">
               <div className="map">
-                <div className="map__container"></div>
+                <div className="map__container">
+                  <Map
+                    locations = { locations }
+                    selectedPoint = {CONTACT_LOCATION}
+                  />
+                </div>
               </div>
             </div>
           </div>
