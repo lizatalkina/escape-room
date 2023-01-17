@@ -1,7 +1,8 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { Quest } from '../types/quest';
 import { Booking } from '../types/booking';
-import { getQuests, getQuest, getBookingInfo, requireAuthorization } from './action';
+import { MyReservationsData } from '../types/user-data';
+import { getQuests, getQuest, getBookingInfo, requireAuthorization, getMyReservations } from './action';
 import { AuthorizationStatus } from '../const';
 
 type InitialState = {
@@ -10,6 +11,7 @@ type InitialState = {
   bookingInfo: Booking | null;
   authorizationStatus: AuthorizationStatus;
   userEmail: string | null;
+  reservations: MyReservationsData[] | null;
 }
 
 const initialState: InitialState = {
@@ -18,6 +20,7 @@ const initialState: InitialState = {
   bookingInfo: null,
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: null,
+  reservations: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -36,6 +39,10 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(getMyReservations, (state, action) => {
+      const { reservations } = action.payload;
+      state.reservations = reservations;
     });
 });
 

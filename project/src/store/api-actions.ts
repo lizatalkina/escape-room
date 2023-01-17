@@ -3,9 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { Quest } from '../types/quest';
 import { Booking } from '../types/booking';
-import { getQuests, getQuest, getBookingInfo, requireAuthorization, redirectToRoute } from './action';
+import { getQuests, getQuest, getBookingInfo, requireAuthorization, redirectToRoute, getMyReservations } from './action';
 import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
-import { UserData, AuthData, ReservationData } from '../types/user-data';
+import { UserData, AuthData, ReservationData, MyReservationsData } from '../types/user-data';
 import { saveToken, dropToken } from '../services/token';
 
 export const fetchQuestsAction = createAsyncThunk<void, undefined, {
@@ -102,4 +102,29 @@ export const postReservationData = createAsyncThunk<void, ReservationData, {
   async(reservationData, { dispatch, extra: api }) => {
     await api.post<ReservationData>(`${APIRoute.Quests}/${reservationData.questId}/booking`, reservationData);
   }
+);
+
+export const fetchMyReservationsAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchMyReservations',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<MyReservationsData[]>(APIRoute.Reservations);
+    dispatch(getMyReservations({
+      reservations: data
+    }));
+  },
+);
+
+export const deleteReservation = createAsyncThunk<void, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/deleteReservation',
+  async (id, {dispatch, extra: api}) => {
+    await api.delete(`${APIRoute.Reservations}/${id}`);
+  },
 );

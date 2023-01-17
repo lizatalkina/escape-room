@@ -29,6 +29,7 @@ export enum APIRoute {
   Quests = '/escape-room/quest',
   Login = '/escape-room/login',
   Logout = '/escape-room/logout',
+  Reservations = '/escape-room/reservation',
 }
 
 type Translation = Record<string, string>;
@@ -44,6 +45,11 @@ export const TYPE_OPTIONS: Translation = {
   'detective': 'детектив',
   'adventures': 'приключения',
   'sci-fi': 'sci-fi',
+};
+
+export const DAYS_OPTIONS: Translation = {
+  'today': 'сегодня',
+  'tomorrow': 'завтра',
 };
 
 export const URL_MARKER_DEFAULT = '/img/svg/pin-default.svg';

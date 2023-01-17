@@ -1,15 +1,15 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-//import BookingForm from '../../components/booking-form/booking-form';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useEffect, memo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import { FormEvent} from 'react';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { fetchQuestBookingAction, fetchQuestAction, postReservationData } from '../../store/api-actions';
 import Map from '../../components/map/map';
 import { MarkerLocation } from '../../types/map-data';
 import { ReservationData } from '../../types/user-data';
+import { AppRoute } from '../../const';
 
 const getDateTime = (date: string, time: string): string => `${date}_${time.substring(0, time.indexOf(':'))}h${time.substring(time.indexOf(':') + 1)}m`;
 const getDateFromDateTime = (dateTime: string): string => dateTime.substring(0, dateTime.indexOf('_'));
@@ -17,6 +17,7 @@ const getTimeFromDateTime = (dateTime: string): string => `${dateTime.substring(
 
 function BookingScreen (): JSX.Element {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const questInfo = useAppSelector((state) => state.quest);
   const bookingInfo = useAppSelector((state) => state.bookingInfo);
@@ -54,6 +55,7 @@ function BookingScreen (): JSX.Element {
       locationId: selectedPoint.locationId,
       questId: Number(questInfo?.id),
     });
+    navigate(`${AppRoute.MyReservations}`);
   };
 
   useEffect(() => {
@@ -161,7 +163,11 @@ function BookingScreen (): JSX.Element {
                 </span>
               </label>
             </fieldset>
-            <button className="btn btn--accent btn--cta booking-form__submit" type="submit">Забронировать</button>
+            <button
+              className="btn btn--accent btn--cta booking-form__submit"
+              type="submit"
+            >Забронировать
+            </button>
             <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
               <input type="checkbox" id="id-order-agreement" name="user-agreement" required />
               <span className="custom-checkbox__icon">

@@ -1,6 +1,7 @@
 import {createAction} from '@reduxjs/toolkit';
 import { Quest } from '../types/quest';
 import { Booking } from '../types/booking';
+import { MyReservationsData } from '../types/user-data';
 import { AppRoute, AuthorizationStatus } from '../const';
 
 export const getQuests = createAction<{
@@ -23,3 +24,7 @@ export const getBookingInfo = createAction<{
 export const requireAuthorization = createAction<AuthorizationStatus
 >('user/requireAuthorization');
 
+export const getMyReservations = createAction<{
+  reservations: MyReservationsData[];
+}
+>('quest/getMyReservations');
