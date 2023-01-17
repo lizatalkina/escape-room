@@ -1,13 +1,12 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { AuthorizationStatus, PASSWORD_VALIDATION_ERROR, AppRoute, AGREEMENT_VALIDATION_ERROR } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import { Navigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { AuthData } from '../../types/user-data';
 import { loginAction } from '../../store/api-actions';
 import { FormEvent} from 'react';
-import { toast } from 'react-toastify';
 
 function LoginScreen (): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -26,21 +25,10 @@ function LoginScreen (): JSX.Element {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null && userAgreementRef.current !== null) {
-
-      const password = passwordRef.current.value;
-      const agreement = userAgreementRef.current.value;
-      if (agreement === null) {
-        toast.error(AGREEMENT_VALIDATION_ERROR);
-      }
-      if (!password.match(/\d/g) || !password.match(/[a-zA-Z]/g)) {
-        toast.error(PASSWORD_VALIDATION_ERROR);
-      }
-      else {
-        onSubmit({
-          login: loginRef.current.value,
-          password: passwordRef.current.value,
-        });
-      }
+      onSubmit({
+        login: loginRef.current.value,
+        password: passwordRef.current.value,
+      });
     }
   };
 
@@ -86,7 +74,9 @@ function LoginScreen (): JSX.Element {
                       type="password"
                       id="password"
                       name="password"
-                      placeholder="Пароль"
+                      placeholder="Пароль минимум 3 символа"
+                      pattern="[0-9a-zA-Z]{3,}"
+                      minLength={3}
                       required
                     />
                   </div>

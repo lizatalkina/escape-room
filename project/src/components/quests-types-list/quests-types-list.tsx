@@ -17,7 +17,7 @@ function QuestsTypesList (): JSX.Element {
                 dispatch(changeQuestType({typeFilter: quest.questType}));
               }}
             >
-              <input type="radio" name="type" id={quest.id} checked = {currentType === quest.questType}/>
+              <input type="radio" name="type" id={quest.id} checked = {currentType === quest.questType} readOnly/>
               <label className="filter__label" htmlFor={quest.id}>
                 <svg className="filter__icon" width={quest.width} height="30" aria-hidden="true">
                   <use xlinkHref={quest.icon}></use>

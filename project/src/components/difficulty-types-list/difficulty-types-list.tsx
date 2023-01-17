@@ -17,7 +17,7 @@ function DifficultyTypesList (): JSX.Element {
                 dispatch(changeQuestDifficulty({difficultyFilter: quest.difficultyOption}));
               }}
             >
-              <input type="radio" name="level" id={quest.id} checked = {currentDifficulty === quest.difficultyOption} />
+              <input type="radio" name="level" id={quest.id} checked = {currentDifficulty === quest.difficultyOption} readOnly/>
               <label className="filter__label" htmlFor={quest.id}><span className="filter__label-text">{quest.difficulty}</span>
               </label>
             </li>
