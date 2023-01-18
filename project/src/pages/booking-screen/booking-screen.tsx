@@ -10,6 +10,7 @@ import Map from '../../components/map/map';
 import { MarkerLocation } from '../../types/map-data';
 import { ReservationData } from '../../types/user-data';
 import { AppRoute } from '../../const';
+import { LeafletMouseEvent } from 'leaflet';
 
 const getDateTime = (date: string, time: string): string => `${date}_${time.substring(0, time.indexOf(':'))}h${time.substring(time.indexOf(':') + 1)}m`;
 const getDateFromDateTime = (dateTime: string): string => dateTime.substring(0, dateTime.indexOf('_'));
@@ -22,7 +23,20 @@ function BookingScreen (): JSX.Element {
   const questInfo = useAppSelector((state) => state.quest);
   const bookingInfo = useAppSelector((state) => state.bookingInfo);
   const locations = [] as MarkerLocation[];
-  let selectedPoint = {} as MarkerLocation;
+  let defaultLocation = {} as MarkerLocation;
+
+  if (bookingInfo?.locations !== undefined) {
+    bookingInfo.locations.forEach((booking) => locations.push({
+      latitude: booking.coords[0],
+      longitude: booking.coords[1],
+      locationId: booking.id,
+      address: booking.address
+    }));
+    if (bookingInfo.locations.length > 0) {
+      defaultLocation = locations[0];
+    }
+  }
+  const [selectedPoint, setSelectedPoint] = useState(defaultLocation);
 
   const [formData, setFormData] = useState({
     date: '',
@@ -39,6 +53,13 @@ function BookingScreen (): JSX.Element {
 
   const onSubmit = (reservationData: ReservationData) => {
     dispatch(postReservationData(reservationData));
+  };
+
+  const onMarkerClick = (e: LeafletMouseEvent) => {
+    const clickedLocation = locations.find((loc) => loc.latitude === e.latlng.lat && loc.longitude === e.latlng.lng);
+    if (clickedLocation) {
+      setSelectedPoint(clickedLocation);
+    }
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -61,20 +82,7 @@ function BookingScreen (): JSX.Element {
   useEffect(() => {
     dispatch(fetchQuestBookingAction(String(id)));
     dispatch(fetchQuestAction(String(id)));
-  }, [dispatch, id]);
-
-  let bookingAddress = '';
-  if (bookingInfo?.locations !== undefined) {
-    bookingInfo.locations.forEach((booking) => locations.push({
-      latitude: booking.coords[0],
-      longitude: booking.coords[1],
-      locationId: booking.id,
-    }));
-    if (bookingInfo.locations.length > 0) {
-      bookingAddress = bookingInfo.locations[0].address;
-      selectedPoint = locations[0];
-    }
-  }
+  }, [dispatch, id, selectedPoint]);
 
   return questInfo ? (
     <>
@@ -97,11 +105,12 @@ function BookingScreen (): JSX.Element {
                 <div className="map__container">
                   <Map
                     locations = { locations }
-                    selectedPoint = { selectedPoint }
+                    selectedPoint = { Object.keys(selectedPoint).length === 0 ? defaultLocation : selectedPoint }
+                    onClickFunction = { onMarkerClick }
                   />
                 </div>
               </div>
-              <p className="booking-map__address">Вы&nbsp;выбрали: {bookingAddress}</p>
+              <p className="booking-map__address">Вы&nbsp;выбрали: {Object.keys(selectedPoint).length === 0 ? defaultLocation.address : selectedPoint.address}</p>
             </div>
           </div>
           <form
@@ -141,7 +150,7 @@ function BookingScreen (): JSX.Element {
               <legend className="visually-hidden">Контактная информация</legend>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="name">Ваше имя</label>
-                <input onChange={fieldChangeHandler} value={formData.contactPerson} type="text" id="name" name="contactPerson" placeholder="Имя" required pattern="[А-Яа-яЁёA-Za-z'- ]{1,}" />
+                <input onChange={fieldChangeHandler} value={formData.contactPerson} type="text" id="name" name="contactPerson" placeholder="Имя" required pattern="[А-Яа-яЁёA-Za-z-'-' ]{1,}" />
               </div>
               <div className="custom-input booking-form__input">
                 <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>

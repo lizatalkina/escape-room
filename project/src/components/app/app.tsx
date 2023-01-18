@@ -1,14 +1,17 @@
 import MainScreen from '../../pages/main-screen/main-screen';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppSelector } from '../../hooks';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import ContactsScreen from '../../pages/contacts-screen/contacts-screen';
 import QuestScreen from '../../pages/quest-screen/quest-screen';
 import BookingScreen from '../../pages/booking-screen/booking-screen';
 import MyQuestsScreen from '../../pages/my-quests-screen/my-quests-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   return(
     <BrowserRouter>
       <Routes>
@@ -32,11 +35,23 @@ function App(): JSX.Element {
         />
         <Route
           path = { AppRoute.Booking }
-          element = { <BookingScreen/> }
+          element = {
+            <PrivateRoute
+              authorizationStatus = { authorizationStatus }
+            >
+              <BookingScreen/>
+            </PrivateRoute>
+          }
         />
         <Route
           path = { AppRoute.MyReservations}
-          element = { <MyQuestsScreen/>}
+          element = {
+            <PrivateRoute
+              authorizationStatus = { authorizationStatus }
+            >
+              <MyQuestsScreen/>
+            </PrivateRoute>
+          }
         />
         <Route
           path = "*"

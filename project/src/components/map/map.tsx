@@ -18,7 +18,7 @@ const currentCustomIcon = new Icon ({
   iconAnchor: [20,40],
 });
 
-function Map ({ locations, selectedPoint } : MapProps): JSX.Element {
+function Map ({ locations, selectedPoint, onClickFunction } : MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef);
 
@@ -35,11 +35,11 @@ function Map ({ locations, selectedPoint } : MapProps): JSX.Element {
             selectedPoint !== undefined && location.latitude === selectedPoint.latitude && location.longitude === selectedPoint.longitude
               ? currentCustomIcon
               : defaultCustomIcon
-          )
+          ).on('click', onClickFunction)
           .addTo(map);
       });
     }
-  }, [map, locations, selectedPoint]);
+  }, [map, locations, selectedPoint, onClickFunction]);
 
   return(
     <section className = 'escape-room__map map'

@@ -85,6 +85,7 @@ export const CONTACT_LOCATION: MarkerLocation = {
   latitude: 59.969718,
   longitude: 30.307523,
   locationId: 0,
+  address: 'Санкт-Петербург, Набережная реки Карповка, д 5П'
 };
 
 export const MAP_ZOOM = 10;

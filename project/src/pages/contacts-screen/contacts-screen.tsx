@@ -51,7 +51,8 @@ function ContactsScreen (): JSX.Element {
                 <div className="map__container">
                   <Map
                     locations = { locations }
-                    selectedPoint = {CONTACT_LOCATION}
+                    selectedPoint = {{} as MarkerLocation}
+                    onClickFunction = { () => void {} }
                   />
                 </div>
               </div>
